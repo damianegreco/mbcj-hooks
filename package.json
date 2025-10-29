@@ -1,0 +1,19 @@
+{
+  "name": "mbcj-hooks",
+  "version": "1.0.1",
+  "description": "Hooks para react del MBCJ",
+  "license": "ISC",
+  "author": "Damian Greco",
+  "type": "commonjs",
+  "main": "index.js",
+  "module": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "devDependencies": {
+    "react": "^19.2.0"
+  }
+}
