@@ -1,5 +1,4 @@
-const useEnv = require('./useEnv');
-const useUser = require('./useUser');
+import useEnv from './useEnv.js';
+import useUser from './useUser.js';
 
-
-module.exports = {useEnv, useUser}
+export { useEnv, useUser };

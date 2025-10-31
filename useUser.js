@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import useEnv from "./useEnv";
+import useEnv from "./useEnv.js";
 
 /**
  * Hook personalizado para gestionar la autenticación y los datos del usuario.
