@@ -1,18 +1,32 @@
 {
   "name": "mbcj-hooks",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Hooks para react del MBCJ",
   "license": "ISC",
   "author": "Damian Greco",
   "type": "module",
   "main": "index.js",
   "module": "index.js",
+  "types": "index.d.ts",
   "exports": {
-    ".": "./index.js"
+    ".": {
+      "import": "./index.js",
+      "types": "./index.d.ts"
+    }
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:types": "tsc",
+    "prepublishOnly": "npm run build:types"
   },
+  "files": [
+    "index.js",
+    "useEnv.js",
+    "useUser.js",
+    "index.d.ts",
+    "useEnv.d.ts",
+    "useUser.d.ts"
+  ],
   "dependencies": {
     "jwt-decode": "^4.0.0"
   },
@@ -20,6 +34,7 @@
     "react": ">=16.8.0"
   },
   "devDependencies": {
-    "react": "^19.2.0"
+    "react": "^19.2.0",
+    "typescript": "^5.9.3"
   }
 }

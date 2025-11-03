@@ -6,14 +6,15 @@ import { useMemo } from "react";
  *
  * Los valores se cargan instantáneamente y se memoizan.
  *
- * @returns {object} Objeto con las variables de entorno cargadas.
- * @property {boolean} ENV_LOADED - Siempre `true`. Se mantiene por compatibilidad.
- * @property {string} BASENAME - El basename de la URL para el router (ej. /mi-app).
- * @property {string} BASE_URL - La URL base para las peticiones de API.
- * @property {string} URL_REDIRECT - URL de redirección utilizada por OAuth.
- * @property {string} URL_OAUTH - URL del proveedor de OAuth.
- * @property {string} CLIENTE_ID - ID de cliente para OAuth.
- * @property {boolean} TEST - Flag para habilitar/deshabilitar modos de prueba.
+ * @returns {{
+ * ENV_LOADED: boolean;
+ * BASENAME: string;
+ * BASE_URL: string;
+ * URL_REDIRECT: string;
+ * URL_OAUTH: string;
+ * CLIENTE_ID: string;
+ * TEST: boolean;
+ * }} Objeto con las variables de entorno cargadas.
  */
 export default function useEnv() {
   const env = import.meta.env;

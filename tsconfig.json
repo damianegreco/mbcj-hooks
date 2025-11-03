@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "jsx": "react",
+    "module": "ESNext",
+    "moduleResolution": "node"
+  },
+  "include": [
+    "index.js",
+    "useEnv.js",
+    "useUser.js"
+  ]
+}
