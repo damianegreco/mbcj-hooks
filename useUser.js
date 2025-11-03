@@ -212,11 +212,11 @@ export default function useUser() {
     return false;
   }, [BASENAME, TEST, logout, verificarToken]);
 
-  // // --- Efecto de Inicialización ---
-  // // Carga los datos del localStorage *una sola vez* al montar el hook.
-  // useEffect(() => {
-  //   getLocalData();
-  // }, []); // getLocalData está memoizada, por lo que esto solo se ejecuta una vez
+  // --- Efecto de Inicialización ---
+  // Carga los datos del localStorage *una sola vez* al montar el hook.
+  useEffect(() => {
+    getLocalData();
+  }, [getLocalData]); // getLocalData está memoizada, por lo que esto solo se ejecuta una vez
 
   // --- Retorno del Hook ---
   return { 
