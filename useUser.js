@@ -216,7 +216,7 @@ export default function useUser() {
   // Carga los datos del localStorage *una sola vez* al montar el hook.
   useEffect(() => {
     getLocalData();
-  }, [getLocalData]); // getLocalData está memoizada, por lo que esto solo se ejecuta una vez
+  }, []); // getLocalData está memoizada, por lo que esto solo se ejecuta una vez
 
   // --- Retorno del Hook ---
   return { 
