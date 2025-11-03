@@ -34,7 +34,7 @@ export default function useUser() {
    * Obtiene los datos completos del usuario desde localStorage.
    * @returns {object|null} Los datos del usuario parseados o null si no existen o hay error.
    */
-  const getUsuarioFromStorage = () => {
+  const getUsuarioFromStorage = useCallback(() => {
     const usuarioData = localStorage.getItem(`${BASENAME}_datos`);
     if (!usuarioData) return null;
     
@@ -45,14 +45,14 @@ export default function useUser() {
       localStorage.clear();
       return null;
     }
-  };
+  }, [BASENAME]);
 
   /**
    * Actualiza los estados 'usuario' y 'persona' a partir de datos proporcionados
    * o leyéndolos desde localStorage. Separa 'persona' del objeto 'usuario'.
    * @param {object|null} [usuarioParam=null] - Datos de usuario opcionales para establecer el estado. Si es null, usa getUsuarioFromStorage.
    */
-  const getUser = (usuarioParam = null) => {
+  const getUser = useCallback((usuarioParam = null) => {
     const datos = usuarioParam ? usuarioParam : getUsuarioFromStorage();
     if (datos) {
       const personaData = datos.persona;
@@ -65,7 +65,7 @@ export default function useUser() {
       setPersona(null);
       setUsuario(null);
     }
-  }; // setPersona y setUsuario son estables
+  }, [getUsuarioFromStorage]); // setPersona y setUsuario son estables
 
   /**
    * Actualiza el estado 'tipoUsuarioId' desde un parámetro o localStorage.
@@ -76,6 +76,7 @@ export default function useUser() {
     let tipoUsuarioIdLocal = tipo_usuario_id ? tipo_usuario_id : localStorage.getItem(`${BASENAME}_tipo_usuario_id`);
     try {
       const nuevoTipo = parseInt(tipoUsuarioIdLocal);
+      if (isNaN(nuevoTipo)) throw "no numero";
       setTipoUsuarioId(nuevoTipo);
       return nuevoTipo;
     } catch (error) {
@@ -88,14 +89,14 @@ export default function useUser() {
   /**
    * Limpia localStorage y resetea todos los estados de autenticación.
    */
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.clear();
     setPersona(null);
     setUsuario(null);
     setTipoUsuarioId(null);
     setToken(null);
     setLogged(false);
-  }; // Todos los setters de useState son estables
+  }, []); // Todos los setters de useState son estables
 
   /**
    * Procesa el inicio de sesión: decodifica el token, guarda en localStorage
@@ -103,7 +104,7 @@ export default function useUser() {
    * @param {string} token - El token JWT recibido.
    * @param {object} usuario - Los datos del usuario (fallback si el token no los incluye).
    */
-  const login = (token, usuario) => {
+  const login = useCallback((token, usuario) => {
     if (typeof usuario !== 'object' || usuario === null) {
       console.error("Intento de login con datos de usuario inválidos:", usuario);
       return;
@@ -129,7 +130,7 @@ export default function useUser() {
       console.error("Error al decodificar el token en login:", error);
       logout(); // Si el token es inválido, limpiamos todo
     }
-  };
+  }, [BASENAME, getUser, getTipoUsuario, logout]);
 
   /**
    * Carga los datos de autenticación desde localStorage al estado del hook.
@@ -137,7 +138,7 @@ export default function useUser() {
    * Asegura que el estado se establezca de forma consistente (usando getUser/getTipoUsuario).
    * @returns {string|null} El token si se encontraron todos los datos, o null si faltaba algo.
    */
-  const getLocalData = () => {
+  const getLocalData = useCallback(() => {
     const token = localStorage.getItem(`${BASENAME}_token`);
     const tipoUsuarioId = localStorage.getItem(`${BASENAME}_tipo_usuario_id`);
     const usuarioData = getUsuarioFromStorage(); // Solo obtiene los datos
@@ -157,13 +158,13 @@ export default function useUser() {
     setToken(null);
     setLogged(false);
     return null;
-  };
+  }, [BASENAME, getUsuarioFromStorage, getUser, getTipoUsuario]);
 
   /**
    * Verifica si el token (actualmente en estado) es válido y no ha expirado.
    * @returns {boolean} True si el token es válido y no expirado, false en caso contrario.
    */
-  const verificarToken = () => {
+  const verificarToken = useCallback(() => {
     // Si 'logged' es null (estado inicial), no podemos verificar
     if (logged === null || !token) return false; 
     
@@ -178,7 +179,7 @@ export default function useUser() {
       console.error("Error al verificar token:", error);
       return false; // Token inválido o corrupto
     }
-  };
+  }, [logged, token]);
 
   /**
    * Verifica si el usuario está logueado y, opcionalmente, si su tipo de usuario
@@ -187,7 +188,7 @@ export default function useUser() {
    * @param {Array<number>} [tiposUsuariosId=[]] - Lista de IDs de tipo de usuario permitidos.
    * @returns {boolean} True si está logueado (y el tipo coincide, si se especifica), false si no.
    */
-  const checkLogged = (tiposUsuariosId = []) => {
+  const checkLogged = useCallback((tiposUsuariosId = []) => {
     if (TEST) return true;
 
     // Lee el token directamente de localStorage para la comprobación más rápida
@@ -209,7 +210,7 @@ export default function useUser() {
     console.error("Token vencido o inválido");
     logout();
     return false;
-  };
+  }, [BASENAME, TEST, logout, verificarToken]);
 
   // // --- Efecto de Inicialización ---
   // // Carga los datos del localStorage *una sola vez* al montar el hook.
