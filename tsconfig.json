@@ -11,5 +11,9 @@
     "index.js",
     "useEnv.js",
     "useUser.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.d.ts"
   ]
 }

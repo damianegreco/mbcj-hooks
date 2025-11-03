@@ -73,9 +73,14 @@ export default function useUser() {
    * @returns {string|null} El ID del tipo de usuario encontrado.
    */
   const getTipoUsuario = (tipo_usuario_id = null) => {
-    const tipoUsuarioIdLocal = tipo_usuario_id ? tipo_usuario_id : localStorage.getItem(`${BASENAME}_tipo_usuario_id`);
-    setTipoUsuarioId(tipoUsuarioIdLocal);
-    return tipoUsuarioIdLocal;
+    let tipoUsuarioIdLocal = tipo_usuario_id ? tipo_usuario_id : localStorage.getItem(`${BASENAME}_tipo_usuario_id`);
+    try {
+      const nuevoTipo = parseInt(tipoUsuarioIdLocal);
+      setTipoUsuarioId(nuevoTipo);
+      return nuevoTipo;
+    } catch (error) {
+      return tipoUsuarioIdLocal;
+    }
   }; // setTipoUsuarioId es estable
 
   // --- Funciones Públicas (Memoizadas) ---
