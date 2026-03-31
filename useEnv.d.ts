@@ -1,8 +1,7 @@
 /**
- * Hook personalizado para cargar y exponer variables de entorno de la aplicación (Vite).
- * Distingue automáticamente entre entornos de desarrollo (DEV) y producción.
- *
- * Los valores se cargan instantáneamente y se memoizan.
+ * Hook personalizado para cargar y exponer variables de entorno de la aplicación.
+ * Los valores se inyectan dinámicamente según el entorno (desarrollo, testing o producción)
+ * y se memoizan para optimizar su lectura en los componentes.
  *
  * @returns {{
  * ENV_LOADED: boolean;
